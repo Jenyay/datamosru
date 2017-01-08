@@ -1,0 +1,19 @@
+*.py[cod]
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+
+*.pyc
+*.bak
+*.py~
+*.deb
+.ropeproject
+*.sublime-*
+.idea/
+Thumbs.db
+
+secret.py
