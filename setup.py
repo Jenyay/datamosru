@@ -1,5 +1,9 @@
-from setuptools import setup
 import re
+
+try:
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
 
 
 with open('datamosru/__init__.py', 'r') as fd:
@@ -30,5 +34,6 @@ setup(name='datamosru',
           'Programming Language :: Python :: 3.5',
           'Programming Language :: Python :: 3.6',
           'Natural Language :: English',
+          'Topic :: Internet',
       ),
       )
