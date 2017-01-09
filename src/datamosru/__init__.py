@@ -1,1 +1,1 @@
-from .datamosru import DataMosRu
+from .datamosru import *
