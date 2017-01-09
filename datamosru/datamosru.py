@@ -25,6 +25,16 @@ class DataMosRu:
 
         return r
 
+    def request_with_version(self, resource, params=None, **kwargs):
+        if self._api_version is None:
+            self._api_version = self.getAPIVersion()
+
+        resource_new = 'v{version}/{resource}'.format(
+            version=self._api_version,
+            resource=resource
+        )
+        return self.request(resource_new, params, **kwargs)
+
     def getAPIVersion(self):
         '''Get current API version.'''
         r = self.request('version')
@@ -34,11 +44,7 @@ class DataMosRu:
         '''Get datasets list.'''
         count = None
         received = 0
-
-        if self._api_version is None:
-            self._api_version = self.getAPIVersion()
-
-        resource = 'v{version}/datasets'.format(version=self._api_version)
+        resource = 'datasets'
 
         while count is None or received < count:
             params = {
@@ -47,7 +53,7 @@ class DataMosRu:
                 '$inlinecount': 'allpages',
                 'foreign': 'false',
             }
-            r = self.request(resource, params)
+            r = self.request_with_version(resource, params)
 
             if r.status_code != requests.codes.ok:
                 raise DMRStatusError(r)
