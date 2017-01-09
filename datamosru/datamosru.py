@@ -7,14 +7,18 @@ class DataMosRu:
     """
     Class to interact with http://data.mos.ru with API.
     """
-    # Base URL for API
-    site = 'http://api.data.mos.ru/'
-
     def __init__(self, api_key):
         self.api_key = api_key
+        self.site = 'http://api.data.mos.ru/'
+        self.request_items_portion = 500
+        self._api_version = None
 
-    def request(self, resource, **kwargs):
-        r = requests.get(self.site + resource, params=kwargs)
+    def request(self, resource, params=None, **kwargs):
+        if params is None:
+            params = {}
+
+        params.update(kwargs)
+        r = requests.get(self.site + resource, params=params)
 
         if r.status_code != requests.codes.ok:
             raise DMRStatusError(r)
@@ -22,8 +26,37 @@ class DataMosRu:
         return r
 
     def getAPIVersion(self):
+        '''Get current API version.'''
         r = self.request('version')
         return r.json()['Version']
+
+    def getDatasets(self):
+        '''Get datasets list.'''
+        count = None
+        received = 0
+
+        if self._api_version is None:
+            self._api_version = self.getAPIVersion()
+
+        resource = 'v{version}/datasets'.format(version=self._api_version)
+
+        while count is None or received < count:
+            params = {
+                '$top': self.request_items_portion,
+                '$skip': received,
+                '$inlinecount': 'allpages',
+                'foreign': 'false',
+            }
+            r = self.request(resource, params)
+
+            if r.status_code != requests.codes.ok:
+                raise DMRStatusError(r)
+
+            result_json = r.json()
+            count = result_json['Count']
+            items = result_json['Items']
+            yield from items
+            received += len(items)
 
 
 class DMRBaseException(Exception):
