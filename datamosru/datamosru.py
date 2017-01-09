@@ -65,9 +65,24 @@ class DataMosRu:
             received += len(items)
 
     def getDatasetInfo(self, dataset_id):
+        '''Return list of columns for dataset.'''
         resource = 'datasets/{id}'.format(id=dataset_id)
         r = self.request_with_version(resource)
         return r.json()
+
+    def getDatasetLen(self, dataset_id):
+        '''Return items count in dataset.'''
+        resource = 'datasets/{id}/count'.format(id=dataset_id)
+        r = self.request_with_version(resource)
+        return r.json()
+
+    def getDatasetVersion(self, dataset_id):
+        '''Get dataset version.
+        Return tuple (versionNumber, releaseNumber).'''
+        resource = 'datasets/{id}/version'.format(id=dataset_id)
+        r = self.request_with_version(resource)
+        result_json = r.json()
+        return (result_json['versionNumber'], result_json['releaseNumber'])
 
 
 class DMRBaseException(Exception):

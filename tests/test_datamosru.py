@@ -35,9 +35,11 @@ def test_getDatasets_02():
     assert len(list(datasets_iter)) > 680
 
 
-def test_getDatasetInfo_01():
+def test_getDatasetInfo():
     dmr = DataMosRu('')
-    info = dmr.getDatasetInfo(658)
+    dataset_id = 658
+    info = dmr.getDatasetInfo(dataset_id)
+
     assert 'Id' in info
     assert 'CategoryId' in info
     assert 'CategoryCaption' in info
@@ -58,3 +60,18 @@ def test_getDatasetInfo_01():
     assert 'Visible' in info['Columns'][0]
     assert 'Type' in info['Columns'][0]
     assert 'SubColumns' in info['Columns'][0]
+
+
+def test_getDatasetLen():
+    dmr = DataMosRu('')
+    dataset_id = 493
+    count = dmr.getDatasetLen(dataset_id)
+    assert count > 160
+
+
+def test_getDatasetVersion():
+    dmr = DataMosRu('')
+    dataset_id = 655
+    version, release = dmr.getDatasetVersion(dataset_id)
+    assert version >= 4
+    assert release >= 110
