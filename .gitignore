@@ -17,5 +17,8 @@ pip-log.txt
 .idea/
 Thumbs.db
 .cache
+dist
+MANIFEST
+*.egg-info
 
 secret.py

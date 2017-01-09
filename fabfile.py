@@ -1,7 +1,12 @@
-from fabric.api import lcd, local, task
+from fabric.api import local, task
 
 
 @task
 def test():
-    with lcd('src'):
-        local('PYTHONPATH=. pytest')
+    local('pip install -e .')
+    local('pytest')
+
+
+@task
+def build():
+    local('python setup.py sdist')
