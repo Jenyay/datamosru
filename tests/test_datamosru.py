@@ -33,3 +33,28 @@ def test_getDatasets_02():
     dmr.request_items_portion = 100
     datasets_iter = dmr.getDatasets()
     assert len(list(datasets_iter)) > 680
+
+
+def test_getDatasetInfo_01():
+    dmr = DataMosRu('')
+    info = dmr.getDatasetInfo(658)
+    assert 'Id' in info
+    assert 'CategoryId' in info
+    assert 'CategoryCaption' in info
+    assert 'DepartmentId' in info
+    assert 'DepartmentCaption' in info
+    assert 'Caption' in info
+    assert 'Description' in info
+    assert 'ContainsGeodata' in info
+    assert 'VersionNumber' in info
+    assert 'VersionDate' in info
+    assert 'ItemsCount' in info
+    assert 'Columns' in info
+
+    assert len(info['Columns']) > 0
+
+    assert 'Name' in info['Columns'][0]
+    assert 'Caption' in info['Columns'][0]
+    assert 'Visible' in info['Columns'][0]
+    assert 'Type' in info['Columns'][0]
+    assert 'SubColumns' in info['Columns'][0]

@@ -64,6 +64,11 @@ class DataMosRu:
             yield from items
             received += len(items)
 
+    def getDatasetInfo(self, dataset_id):
+        resource = 'datasets/{id}'.format(id=dataset_id)
+        r = self.request_with_version(resource)
+        return r.json()
+
 
 class DMRBaseException(Exception):
     """Base exception for datamosru module."""
