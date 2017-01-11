@@ -7,13 +7,13 @@ from datamosru import DataMosRu, DMRStatusError
 
 
 def test_api_version():
-    dmr = DataMosRu('')
+    dmr = DataMosRu()
     version = dmr.getAPIVersion()
     assert version == 1
 
 
 def test_request_invalid_resource():
-    dmr = DataMosRu('')
+    dmr = DataMosRu()
     try:
         dmr.request('invalid_resource')
     except DMRStatusError as e:
@@ -23,20 +23,20 @@ def test_request_invalid_resource():
 
 
 def test_getDatasets_01():
-    dmr = DataMosRu('')
+    dmr = DataMosRu()
     datasets_iter = dmr.getDatasets()
     assert len(list(datasets_iter)) > 680
 
 
 def test_getDatasets_02():
-    dmr = DataMosRu('')
+    dmr = DataMosRu()
     dmr.request_items_portion = 100
     datasets_iter = dmr.getDatasets()
     assert len(list(datasets_iter)) > 680
 
 
 def test_getDatasetInfo():
-    dmr = DataMosRu('')
+    dmr = DataMosRu()
     dataset_id = 658
     info = dmr.getDatasetInfo(dataset_id)
 
@@ -63,14 +63,14 @@ def test_getDatasetInfo():
 
 
 def test_getDatasetLen():
-    dmr = DataMosRu('')
+    dmr = DataMosRu()
     dataset_id = 493
     count = dmr.getDatasetLen(dataset_id)
     assert count > 160
 
 
 def test_getDatasetVersion():
-    dmr = DataMosRu('')
+    dmr = DataMosRu()
     dataset_id = 655
     version, release = dmr.getDatasetVersion(dataset_id)
     assert version >= 4

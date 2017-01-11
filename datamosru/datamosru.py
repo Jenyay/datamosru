@@ -7,8 +7,7 @@ class DataMosRu:
     """
     Class to interact with http://data.mos.ru with API.
     """
-    def __init__(self, api_key):
-        self.api_key = api_key
+    def __init__(self):
         self.site = 'http://api.data.mos.ru/'
         self.request_items_portion = 500
         self._api_version = None
