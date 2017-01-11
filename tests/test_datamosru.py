@@ -22,16 +22,16 @@ def test_request_invalid_resource():
         assert False
 
 
-def test_getDatasets_01():
+def test_getDatasetsList_01():
     dmr = DataMosRu()
-    datasets_iter = dmr.getDatasets()
+    datasets_iter = dmr.getDatasetsList()
     assert len(list(datasets_iter)) > 680
 
 
-def test_getDatasets_02():
+def test_getDatasetsList_02():
     dmr = DataMosRu()
     dmr.request_items_portion = 100
-    datasets_iter = dmr.getDatasets()
+    datasets_iter = dmr.getDatasetsList()
     assert len(list(datasets_iter)) > 680
 
 
@@ -75,3 +75,39 @@ def test_getDatasetVersion():
     version, release = dmr.getDatasetVersion(dataset_id)
     assert version >= 4
     assert release >= 110
+
+
+def test_getDataset_2039():
+    dmr = DataMosRu()
+    dataset_id = 2039
+
+    dataset_len = dmr.getDatasetLen(dataset_id)
+    items = list(dmr.getDataset(dataset_id))
+
+    assert len(items) == dataset_len
+
+    item = items[0]
+    assert item['global_id'] is not None
+    assert item['Kod_okato'] is not None
+    assert item['Name'] is not None
+    assert item['Latin_name'] is not None
+    assert item['Type'] is not None
+    assert item['Kod'] is not None
+
+
+def test_getDataset_2044():
+    dmr = DataMosRu()
+    dataset_id = 2044
+
+    dataset_len = dmr.getDatasetLen(dataset_id)
+    items = list(dmr.getDataset(dataset_id))
+
+    assert len(items) == dataset_len
+
+    item = items[0]
+    assert item['global_id'] is not None
+    assert item['UM_NAMEF'] is not None
+    assert item['UM_CODE'] is not None
+    assert item['UM_NAMES'] is not None
+    assert item['UM_TRANS'] is not None
+    assert item['UM_KLADR'] is not None

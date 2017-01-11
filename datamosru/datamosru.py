@@ -39,7 +39,23 @@ class DataMosRu:
         r = self.request('version')
         return r.json()['Version']
 
-    def getDatasets(self):
+    def getDataset(self, dataset_id):
+        count = self.getDatasetLen(dataset_id)
+        resource = u'datasets/{}/rows'.format(dataset_id)
+        received = 0
+
+        while received < count:
+            params = {
+                '$top': self.request_items_portion,
+                '$skip': received,
+            }
+            r = self.request_with_version(resource, params)
+            result_json = r.json()
+            for item in result_json:
+                yield item['Cells']
+                received += 1
+
+    def getDatasetsList(self):
         '''Get datasets list.'''
         count = None
         received = 0
@@ -53,9 +69,6 @@ class DataMosRu:
                 'foreign': 'false',
             }
             r = self.request_with_version(resource, params)
-
-            if r.status_code != requests.codes.ok:
-                raise DMRStatusError(r)
 
             result_json = r.json()
             count = result_json['Count']
